@@ -1,0 +1,60 @@
+<style>
+    #nav2{
+        font-size: 0.85rem;
+    }
+    .navbar-brand{
+        font-size: 0.99rem;
+    }
+    #nav2 li{
+        padding-left: 1.2vh;
+    }
+</style>
+<script>
+
+function func(id)
+{
+  document.getElementById(id).style.colour="black";
+
+}
+
+
+</script>
+<nav class="navbar sticky-top navbar-expand-lg navbar-dark bg-dark" id="nav2">
+    <a class="navbar-brand font-weight-bold" href="#" disabled>Student Section</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar2" aria-controls="collapsibleNavbar2"
+        aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="collapsibleNavbar2">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="/" active>Dashboard</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="Mycourses" onclick="func(id)">My Courses</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="Mycourses">Notebook/Reference Material</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="Mycourses">Practice Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="Mycourses">Test Yourself</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="Mycourses">Bookmarked Questions</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/student/doubt-book" id="Mycourses">Ask a Doubt</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#" id="Mycourses">Notifications</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/student/allvideos" id="Mycourses">All Videos</a>
+            </li>
+        </ul>
+    </div>
+</nav>
