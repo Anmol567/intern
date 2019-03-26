@@ -28,6 +28,7 @@
     "http": "0.0.0",
     "http-errors": "~1.6.2",
     "jquery": "^3.3.1",
+    "jsdom": "^14.0.0",
     "mdbootstrap": "^4.6.0",
     "method-override": "^3.0.0",
     "mongoose": "^5.3.16",
@@ -53,6 +54,6 @@
   },
   "devDependencies": {
     "eslint": "^5.4.0",
-    "nodemon": "^1.18.8"
+    "nodemon": "^1.18.10"
   }
 }

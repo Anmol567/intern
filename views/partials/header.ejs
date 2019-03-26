@@ -2,11 +2,14 @@
 <html lang="en" >
 
 <head>
+  
   <meta charset="UTF-8">
   <title>Home Widget EduTech</title>
   <% include ./bootstrap4 %>
   <% include ./icons %>
+ 
   <style>
+
     #nav{
       background-image: linear-gradient(rgb(121, 121, 210), rgb(51, 51, 153));
     }
@@ -29,55 +32,121 @@
       background-color: rgb(219,68,55);
       color:white;
     }
-  </style>
+     .link {
+    color: blue;
+}
 
+
+.select
+{
+  color: red;
+}
+  </style>
+ <script src="https://code.jquery.com/jquery-3.3.1.js"
+  integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+  crossorigin="anonymous">></script>
 </head>
 
-<body a link="black" vlink="red">
-  <script src="https://embed.small.chat/TDU5N5CGKGFC7Z804A.js" async></script>
+<body >
+
+  
 
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark" id="nav">
     <a class="navbar-brand" href="#" disabled><img src="/images/headerLogo.png" width="200" height="40" disabled="true" alt="WidgetEduTech Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
+      
     </button>
 
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item">
-          <a class="nav-link" id="home"href="/" onclick="func()">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" id="About Us"href="#" onclick="func()">About Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/courses" onclick="func()">Course Structure</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/contact-us" onclick="func()">Contact Us</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="/products" onclick="func()">Our Products</a>
-        </li>
-      </ul>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         CLASS
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/class/<%=4%>">4</a>
+          <a class="dropdown-item" href="/class/<%=5%>">5</a>
+          <a class="dropdown-item" href="/class/<%=6%>">6</a>
+          <a class="dropdown-item" href="/class/<%=7%>">7</a>
+          <a class="dropdown-item" href="/class/<%=8%>">8</a>
+          <a class="dropdown-item" href="/class/<%=9%>">9</a>
+          <a class="dropdown-item" href="/class/<%=10%>">10</a>
+          <a class="dropdown-item" href="/class/<%=11%>">11</a>
+          <a class="dropdown-item" href="/class/<%=12%>">12</a>
+        </div>
+      </li>
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         BOARDS
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="/board/CBSE">CBSE</a>
+          <a class="dropdown-item" href="/board/ICSE">ICSE</a>
+          <a class="dropdown-item" href="/board/IGCSE">IGCSE</a>
+          <a class="dropdown-item" href="/board/ANDHRA PRADESH">ANDHRA PRADESH</a>
+          <a class="dropdown-item" href="/board/BIHAR">BIHAR</a>
+          <a class="dropdown-item" href="/board/ckjbsa">ckjbsa</a>
+          <a class="dropdown-item" href="/board/ckjab">ckjab</a>
+          <a class="dropdown-item" href="/board/cnja">cnja</a>
+          <a class="dropdown-item" href="/board/cnjksnk">cnjksnk</a>
+        </div>
+       </li>
+       <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         PRODUCT
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">Live Clsses</a>
+          <a class="dropdown-item" href="#">Animated Classes</a>
+          <a class="dropdown-item" href="#">Self Placed</a>
+          <a class="dropdown-item" href="#">Practice Question</a>
+          <a class="dropdown-item" href="#">Doubts Book</a>
+        </div>
+       </li>
+       <li class="nav-item dropdown">
+         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        ABOUT US?
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="#">About Widget Edutech</a>
+          <a class="dropdown-item" href="#">Our Blog</a>
+          <a class="dropdown-item" href="#">Meet Our Educators</a>
+          <a class="dropdown-item" href="#">Our Satisfied Customers</a>
+          <a class="dropdown-item" href="#">Contact Us</a>
+        </div>
+       </li>
+   
+     </ul>
       <ul class="navbar-nav navbar-right">
         <% if(!currentUser){%>
           <li class="nav-item">
             <!-- Trigger the modal with a button -->
-            <a class="nav-link" data-toggle="modal" data-target="#myModal">Login</a>
+            <a class="nav-link" id="login"data-toggle="modal" data-target="#myModal">Login</a>
           </li>
           <li class="nav-item">
-            <a class="nav-link" href="/beinstructor" onclick="func()">Become an Instructor</a>
+            <a class="nav-link" id="intructor" href="/beinstructor" >Become an Instructor</a>
           </li>
         <%} else{%>
           <li class="nav-item">
-            <a class="nav-link" href="/logout" onclick="func()">Logout</a>
+            <a class="nav-link" id="logout"href="/logout" >Logout</a>
           </li>
         <%}%>
       </ul>
     </div>
   </nav>
-  
+ <script>      
+  $(document).ready(function(){
+    if(localStorage.getItem("clickedLinkId")){ // If "clickedLinkClass" has been set.
+        $('#'+localStorage.getItem("clickedLinkId")).addClass("bg-danger"); // add the class "Selected", to the previously clicked link.
+    }
+    $("a").click(function(){ // On click
+        $(".bg-danger").removeClass("bg-danger");
+        $(this).addClass("bg-danger");
+        localStorage.setItem("clickedLinkId", $(this).attr("id")); // Save the class of the current element in the localStorage.
+    });
+});
+</script>
   <!-- Modal -->
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">  

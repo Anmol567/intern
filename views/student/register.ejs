@@ -68,7 +68,7 @@ function confirmEmail() {
 
   var email = document.getElementById("inputEmail").value
   var confiEmail = document.getElementById("inputConfiEmail").value
-  if (email!=confiEmail) {
+  if (validateemail()&&email!=confiEmail) {
      document.getElementById("message3").innerHTML="Email id don't match"
      return false;
   }
@@ -78,7 +78,23 @@ function confirmEmail() {
   return true;
   }
 }
-
+function onlyalphabet(){
+  var regexp = /^[a-z A-Z]+$/;
+  var element=document.getElementById("fullname")
+  if(element.value=="")
+  {
+  document.getElementById("message1").innerHTML="enter fullname"
+  return false;
+  }
+  else if(element.value.match(regexp))
+  {
+  document.getElementById("message1").innerHTML=""
+  return true;
+  }else{
+     document.getElementById("message1").innerHTML="Only alphabets required"
+    return false;
+  }
+}
 function phonenumber()
 {
  
@@ -121,7 +137,7 @@ function phonenumber()
             </div>
             <div class="form-group col-md-6">
               <label for="Full Name">Full Name:</label>
-              <input type="text" name="obj[fullName]" class="form-control" placeholder="FullName" required>
+              <input type="text" name="obj[fullName]" class="form-control" id="fullname" placeholder="FullName" required onblur="onlyalphabet()">
               <div id="message1"></div>
             </div>
           </div>
@@ -153,11 +169,18 @@ function phonenumber()
             <div class="login">
               <a href="/login">Already registered? Login here</a>
             </div>
-            <button type="submit" class="btn btn-primary"onclick="confirmEmail();passwords();validateemail()" >Register </button>
+            <button type="submit" id="submit"class="btn btn-primary" >Register </button>
           </div>
         </div>
       </form>
+<script>
+$("#submit").click(function()
+{
+  return (confirmEmail()&&passwords()&&validateemail()&&onlyalphabet()&&phonenumber());
+})
 
+
+</script>
 
 
  <% include ../partials/footer %>

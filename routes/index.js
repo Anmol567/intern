@@ -14,6 +14,10 @@ router.get('/',  indexController.home_get );
 router.get('/login', indexController.login_get);
 router.post("/login", indexController.login_post);
 
+router.get('/class/:id',indexController.class);
+router.get('/board/:id',indexController.board);
+router.post("/subscribe", indexController.subscribe);
+router.get('/verify', indexController.verify);
 router.get('/logout', indexController.logout);
 
 router.get('/ping', indexController.ping);

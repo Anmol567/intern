@@ -5,8 +5,122 @@
   .container{
     padding: 2vh 0 2vh 0;
   }
+  #message1{
+  color:red
+  }
+  #message2{
+  color:red
+  }
+  #message3{
+  color:red
+  }
+  #message4{
+  color:red
+  }
+  #message5{
+  color:red
+  }
 </style>
+<script type="text/javascript" language="javascript">
+function validateemail()
+{
+  var email=document.getElementById("inputEmail").value
+  var d=email.indexOf('@');
+  var e=email.length-4;
+ var s=email.substring(d+1,e);
+  var a=["gmail","yahoo","orkut","hotmail"]
+  if(d<=0||email.charAt(e)!='.')
+  {
+  document.getElementById("message2").innerHTML="Enter a valid Email Id"
+  return false;
+  }
+  else if(a.indexOf(s)<0)
+  {document.getElementById("message2").innerHTML="Enter a valid domain"
+  return false;
+  }
+  else
+  {
+  document.getElementById("message2").innerHTML=""
+  return true;
+  }
 
+}
+function onlyalphabet(){
+  var regexp = /^[a-zA-Z]+$/;
+  var element=document.getElementById("fullname")
+  if(element.value.match(regexp))
+  {
+  document.getElementById("message1").innerHTML=""
+  return true;
+  }else{
+     document.getElementById("message1").innerHTML="Only alphabets required"
+    return false;
+  }
+}
+function passwords()
+{
+  var pass=document.getElementById("inputPassword").value
+  if(pass.length<5)
+  {
+  document.getElementById("message4").innerHTML="Password length must be greater than 5"
+  return false;
+  }
+  else if(pass.length>15)
+  {
+  document.getElementById("message4").innerHTML="Password length must be smaller than 5"
+  return false;
+  }
+  else
+  {
+  document.getElementById("message4").innerHTML=""
+  return true;
+  }
+}
+function confirmEmail() {
+
+  var email = document.getElementById("inputEmail").value
+  var confiEmail = document.getElementById("inputConfiEmail").value
+  if (email!=confiEmail) {
+     document.getElementById("message3").innerHTML="Email id don't match"
+     return false;
+  }
+  else
+  {
+  document.getElementById("message3").innerHTML=""
+  return true;
+  }
+}
+
+function phonenumber()
+{
+ 
+  var number=document.getElementById("inputMobNo").value
+  if(number=="")
+  {document.getElementById("message5").innerHTML="Enter a mobile number"
+  return false
+  }
+  else if(isNaN(number))
+  {
+  document.getElementById("message5").innerHTML="Mobile number can not be in alphabets"
+  return false
+  }
+  else if(number.length>10||number.length<10)
+  {
+  document.getElementById("message5").innerHTML="Enter ten digits mobile number"
+  return false
+  }
+  else if(number[0]!=9&&number[0]!=8&&number[0]!=7)
+  {
+  document.getElementById("message5").innerHTML="Enter a valid mobile number"
+  return false
+  }
+  else
+  {
+  document.getElementById("message5").innerHTML=""
+  return true
+  }
+}
+</script>
     <div class="container">
       <div class="panel text-center">
         <h3>Register as Instructor</h3>
@@ -19,27 +133,32 @@
             </div>
             <div class="form-group col-md-6">
               <label for="Full Name">Full Name:</label>
-              <input type="text" name="obj[fullName]" class="form-control" placeholder="FullName">
+              <input type="text" name="obj[fullName]" class="form-control" id="fullname" placeholder="FullName" onblur="onlyalphabet()">
+              <div id="message1"></div>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
               <label for="email">Email:</label>
-              <input type="email" name="obj[email]" class="form-control" id="inputEmail" placeholder="Email Address">
+              <input type="email" name="obj[email]" class="form-control" id="inputEmail" placeholder="Email Address" onblur="validateemail()">
+              <div id="message2"></div>
             </div>
             <div class="form-group col-md-6">
               <label for="emailConfirm">Confirm Email:</label>
               <input type="email" name="emailConfirm" class="form-control" id="inputConfiEmail" placeholder="Enter Email Address again" onblur="confirmEmail()">
+              <div id="message3"></div>
             </div>
           </div>
           <div class="row">
             <div class="form-group col-md-6">
              <label for="password">Password:</label>
-             <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password">
+             <input type="password" name="password" class="form-control" id="inputPassword" placeholder="Password" onblur="passwords()" >
+             <div id="message4"></div>
             </div>
             <div class="form-group col-md-6">
               <label for="mobileNumber">Mobile Number:</label>
-              <input type="text" name="obj[mobileNumber]" class="form-control" id="inputMobNo" placeholder="Enter mobile number with country code">
+              <input type="text" name="obj[mobileNumber]" class="form-control" id="inputMobNo" placeholder="Enter mobile number with country code" onblur="phonenumber()">
+              <div id="message5"></div>
             </div>
           </div>
           <div class="row">
@@ -156,7 +275,7 @@
           <div class="login">
             <a href="/login">Already registered? Login here</a>
           </div>
-          <button type="submit" class="btn btn-primary">Register</button>
+          <button type="submit" class="btn btn-primary"onclick="confirmEmail();passwords();validateemail();onlyalphabet()" >Register </button>
         </div>
         </form>
         </div>
@@ -165,21 +284,6 @@
 <script type="text/javascript" src="http://js.nicedit.com/nicEdit-latest.js"></script>
 
 
-<script>
-  $('#sub').multiselect();
-  $('#class').multiselect();
-  $('#lang').multiselect();
-  nicEditors.allTextAreas();
-</script>
-
-<%
-  function confirmEmail() {
-    var email = document.getElementById("inputEmail").value
-    var confiEmail = document.getElementById("inputConfiEmail").value
-    if (email!=confiEmail) {
-      alert('Email not matching');
-    }
-  }%>
 
 
  <% include ../partials/footer %>

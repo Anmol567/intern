@@ -115,13 +115,14 @@ exports.admin_register_get = function (req, res) {
 }
 
 exports.admin_register_post = function (req, res) {
-    user.findOne({ email: req.body.obj.email }).populate("adm").exec(function (err, adm) {
+    user.findOne({ email: req.body.obj.email,userType:"admin" }).populate("adm").exec(function (err, adm) {
         if (err) {
             req.flash('error', err.message);
             console.log(err);
             res.redirect('/');
         }
         if (adm != null) {
+            console.log(adm)
             console.log("Admin with the given email Id already exists!");
             req.flash('error', "Admin Already Exists with: " + req.body.obj.email);
             res.redirect('/adminregister');
@@ -129,14 +130,16 @@ exports.admin_register_post = function (req, res) {
         var newadm = new user({
             email: req.body.obj.email,
             username: req.body.obj.username,
+            password:req.body.password,
             userType: 'admin',
             emailValid: false
         });
         console.log("Admin Initiated " + newadm);
-        user.register(newadm, req.body.password, function (err, admnew) {
+        user.create(newadm, function (err, admnew) {
             if (err) {
                 req.flash('error', "Oops Something went wrong!");
                 console.log(err);
+                console.log('hm');
                 res.redirect('/adminregister');
             }
             else {
@@ -318,20 +321,21 @@ exports.admin_stddel_del = function (req, res) {
         }
         else {
             var id = std.user;
-            student.findByIdAndRemove(req.params.id, function (err, student) {
+            student.findOneAndRemove(req.params.id, function (err, student) {
                 if (err) {
                     console.log(err);
                     req.flash('error', err.message);
                     res.redirect('/allstudents');
                 }
                 else {
-                    user.findByIdAndRemove(id, function (err, nuser) {
+                    user.findOneAndRemove(id, function (err, nuser) {
                         if (err) {
                             console.log(err);
                             req.flash('error', err.message);
                             res.redirect('/allstudents');
                         }
                         else {
+                            
                             req.flash('success', 'Student has been successfully deleted!');
                             res.redirect('/allstudents');
                         }

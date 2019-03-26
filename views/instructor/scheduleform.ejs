@@ -5,11 +5,53 @@
   .container{
     padding: 6vh 0 2vh 0;
   }
+  #message1{
+  color:red
+  }
+  #message2{
+  color:red
+  }
 </style>
 
 <div class="container text-center" id="gif" style="display:none;">
   <img src="/images/loading.gif" alt="Loading!">
 </div>
+<script>
+function onlyalphabet(){
+  var regexp = /^[a-z A-Z]+$/;
+  var element=document.getElementById("subject")
+  if(element.value=="")
+  {
+  document.getElementById("message1").innerHTML="enter fullname"
+  return false;
+  }
+  else if(element.value.match(regexp))
+  {
+  document.getElementById("message1").innerHTML=""
+  return true;
+  }else{
+     document.getElementById("message1").innerHTML="Only alphabets required"
+    return false;
+  }
+}
+function onlyalphabets(){
+  var regexp = /^[a-z A-Z]+$/;
+  var element=document.getElementById("topic")
+  if(element.value=="")
+  {
+  document.getElementById("message2").innerHTML="enter fullname"
+  return false;
+  }
+  else if(element.value.match(regexp))
+  {
+  document.getElementById("message2").innerHTML=""
+  return true;
+  }else{
+     document.getElementById("message2").innerHTML="Only alphabets required"
+    return false;
+  }
+}
+</script>
 
 <div class="container" id="form-input">
   <h3 class="text-center">
@@ -19,21 +61,24 @@
     <div class="row">
       <div class="form-group col-md-6">
         <label for="subject"> Subject: </label>
-        <input type="text" required class="form-control" name="obj[subject]" id="subject" placeholder="Enter Subject"/>
+        <input type="text"  class="form-control" name="obj[subject]" id="subject" placeholder="Enter Subject" onblur="onlyalphabet()"/>
+        <div id="message1"></div>
       </div>
+
       <div class="form-group col-md-6">
         <label for="topic"> Topic: </label>
-        <input type="text" required class="form-control" name="obj[topic]" id="topic" placeholder="Enter Topic"/>
+        <input type="text"  class="form-control" name="obj[topic]" id="topic" placeholder="Enter Topic" onblur="onlyalphabets()"/>
+         <div id="message2"></div>
       </div>
     </div>
     <div class="row">
       <div class="form-group col-md-6">
         <label for="date"> Date: </label>
-        <input type="date" required class="form-control" name="date" id="date" placeholder="Enter Date"/>
+        <input type="date"  class="form-control" name="date" id="date" placeholder="Enter Date"/>
       </div>
       <div class="form-group col-md-6">
         <label for="time"> Time: </label>
-        <input type="time" required class="form-control" name="time" id="time" placeholder="Enter Time"/>
+        <input type="time"  class="form-control" name="time" id="time" placeholder="Enter Time"/>
       </div>
       <input type="hidden" required name="cast_id" id="cast_id">
       <input type="hidden" required name="stream_id" id="stream_id">
@@ -46,7 +91,26 @@
 
   </form>
 </div>
+<script >
+document.getElementById("authorize-button").addEventListener('click',function()
+{
+  bool a=onlyalphabet();
+  bool b=onlyalphabets();
+  if(a&&b)
+  return true;
+  else
+  return false;
+});
+document.getElementById("submit-button").addEventListener('click',function(){
 
+  bool a=onlyalphabet();
+  bool b=onlyalphabets();
+  if(a&&b)
+  return true;
+  else
+  return false;
+});
+</script>
 <script type="text/javascript">
   // Client ID and API key from the Developer Console
   var CLIENT_ID = '<%= client_secret %>';
@@ -206,7 +270,7 @@ function stopform(value){
 </script>
 
 <script type="text/javascript">
-  $(document).ready(function(){
+  $("#date").click(function(){
     $('#date').change(function(){
       var x = $('#date').val();
       var date = new Date(x);

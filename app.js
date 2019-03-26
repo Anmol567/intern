@@ -16,6 +16,7 @@ var methodOverride = require('method-override');
 var fs = require('fs');
 var user = require('./models/user.js');
 var student = require('./models/student.js');
+var $ = require('jquery')
 
 //var MongoClient = require('mongodb').MongoClient;
 //var url = 'mongodb://localhost/development-studymantra';
@@ -154,7 +155,12 @@ app.use(function(err, req, res, next) {
   res.status(err.status || 500);
   res.render('error');
 });
-
+var jsdom = require("jsdom");
+const { JSDOM } = jsdom;
+const { window } = new JSDOM();
+const { document } = (new JSDOM('')).window;
+global.document = document;
+var $ = require("jquery")(window);
 app.listen(port);
 
 module.exports = app;

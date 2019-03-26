@@ -6,17 +6,22 @@ var location = require('../models/location.js');
 var schedule = require('../models/schedule.js');
 var passport = require("passport");
 var ValidateUser = require("../models/validateuser");
+var subscribedUsers = require('../models/subscribedUsers.js');
 var nodemailer = require("nodemailer");
 var mongoose = require("mongoose");
 var pdfUtil = require('pdf-to-text');
-var smtpTransport =  require('nodemailer-smtp-transport');
+var feedback =  require('../models/feedback.js');
 var fs = require('fs');
 var doubts = require('../models/doubts.js');
+
 var demos = require('../models/demo.js');
 var path = require('path');
 
+var rand;
 
-var transport = nodemailer.createTransport(smtpTransport({
+var mailOptions;
+exports.subscribe=function(req,res){
+  var smtpTransport = nodemailer.createTransport({
   //debug: true,
   /*host: 'smtp.mail.yahoo.com',
   port: 587,
@@ -26,51 +31,79 @@ var transport = nodemailer.createTransport(smtpTransport({
     user: 'studyantra.widgetedutech@gmail.com',
     pass: 'Keepitsecured@2018'
   }
-}));
-
-function randomString() {
-  var randomstring = [];
-  var possible = "QWERTYUIOPLKJHGFDSAZXCVBNM1234567890qwertyuioplkjhgfdsazxcvbnm";
-
-  for (var i=0; i<8; i++) {
-    newChar = possible.charAt(Math.floor(Math.random() * possible.length));
-    randomstring.push(newChar);
-  }
-  return randomstring.join('');
-  //console.log(randomstring);
-};
-
-
-function sendEmailValidate(email, validateString) {
-  console.log("Send Mesg started" + email);
-  var mailOptions = {
+});
+        rand=Math.floor((Math.random() * 10000000) + 547623);
+  host=req.get('host');
+  var email=req.body.el;
+  link="http://"+req.get('host')+"/verify?id="+rand;
+   mailOptions = {
     from: 'studyantra.widgetedutech@gmail.com',
     to: email,
     subject: 'Email Verification - WidgetEduTech',
-    html: 'The mail has been sent from Node.js application! ' + validateString + '</p>'
+    html: 'The mail has been sent from Node.js application! ' + link+ '</p>'
   };
-  transport.sendMail(mailOptions, (error, info) => {
-    if (error) {
-      console.log(error);
-      return ('failed');
-    }
-    else {
-      console.log('Email sent: ' + info.response);
-      var obj = { email: email, validationKey: validateString };
-      ValidateUser.create(obj, function (err, newlyCreated) {
-        if (err) {
-          console.log(err);
-          return ('failed');
-        }
-        else {
-          console.log(newlyCreated);
-          return ('worked');
-        }
-      });
+  console.log(mailOptions);
+  smtpTransport.sendMail(mailOptions, function(error, response){
+     if(error){
+          console.log(error);
+    res.end("error");
+   }else{
+          console.log("Message sent: " + response.message);
+          var subsuser=new subscribedUsers({
+            email:email,
+            randid:rand,
+            temp:false
+          });
+    user.find({},function(err,nad)
+    { 
+      for(var i=0;i<nad.length;i++)
+      {
+       
+        console.log(nad[i]);
     }
   });
+ValidateUser.find({},function(err,my)
+{
+  for(var i=0;i<my.length;i++)
+  console.log(my[i]);
+})
+  subscribedUsers.create(subsuser,function(err,newuser)
+  {
+    if(err)
+      console.log(err)
+    else
+        {console.log(newuser);
+          res.end("Check Your Inbox And Click The link");}
+  })
+      }
+});
+};
+exports.verify=function(req,res){
+  console.log(req.protocol+":/"+req.get('host'));
+if((req.protocol+"://"+req.get('host'))==("http://"+host))
+{
+  console.log("Domain is matched. Information is from Authentic email");
+    subscribedUsers.findOne({randid:req.query.id},function(err,newc)
+    {
+      if(err)
+        console.log(err);
+      else
+      {
+        console.log(newc)
+        newc.temp=true;
+subscribedUsers.findByIdAndUpdate(newc._id,newc,{new:true},function(err,newc)
+  {
+    if(err)
+      console.log(err)
+    else
+      console.log(newc);
+  });
+      }
+    })
+    res.end("<h1>Email "+mailOptions.to+" is been Successfully subscribed");
+  }
+  
 }
-
 //feedback
 exports.feedback_get = function(req, res) {
   res.render('feedback');
@@ -97,6 +130,7 @@ exports.feedback_post = function(req, res) {
 exports.verify_email_get = function(req, res) {
   res.render('verifyEmail');
 };
+
 exports.verify_email_post = function(req, res) {
   ValidateUser.findOneAndRemove({validationKey: req.body.verificationCode}, function (err, userf){
     if(err) {
@@ -126,7 +160,16 @@ exports.verify_email_post = function(req, res) {
     } );
   });
 };
-
+exports.class= function(req,res){
+ 
+  res.render('class',{id:req.params.id});
+ 
+}
+exports.board= function(req,res){
+ 
+  res.render('board',{id:req.params.id});
+ 
+}
 //home route
 exports.home_get= function(req, res) {
 	var user = req.user;
@@ -202,58 +245,6 @@ exports.login_post = function(req, res){
   })
 }
 
-exports.instructor_register_post = function(req, res){
-  user.findOne({email: req.body.obj.email}). populate("inst"). exec(function(err, inst){
-    if(err){
-      req.flash('error', err.message);
-      console.log(err);
-      res.redirect('/');
-    }
-    if(inst!=null){
-      console.log("Instructor with the given email Id already exists!");
-      req.flash('error', "User Already Exists with: " + req.body.obj.email);
-      res.redirect('/beinstructor');
-    }
-    var newinst = new user({
-      email: req.body.obj.email,
-      username: req.body.obj.username,
-      userType: 'instructor',
-      emailValid: false
-    });
-    console.log("Instructor Initiated " + newinst);
-    user.register(newinst, req.body.password, function(err, instnew){
-      if(err){
-        req.flash('error', "Oops Something went wrong!");
-        console.log(err);
-        res.redirect('/beinstructor');
-      }
-      else{
-        console.log("Verification");
-        sendEmailValidate(instnew.email, randomString()).then((suc)=>{
-          if(suc == 'worked'){
-            req.body.obj.user = instnew._id;
-            instructor.create(req.body.obj, function(err, instructornew){
-              if(err){
-                req.flash('error', "Oops Something went wrong!");
-                console.log(err);
-                res.redirect('/beinstructor');
-              }
-              else{
-                req.flash('error', "Verify Email with the OTP sent!");
-                res.redirect('/verify-email');
-              }
-            })
-          }
-          else{
-            console.log(suc);
-            req.flash('error', "Oops Something went wrong!");
-            res.redirect('/beinstructor');
-          }
-      })
-    }
-  })
-        });
-}
 
 //About us
 exports.about_us_get = function(req,res){
