@@ -100,11 +100,105 @@ exports.students_all = function (req, res) {
             res.redirect('/admin/home');
         }
         else {
+            console.log(std);
             res.render('admin/allstudents', { data: std, dt_css: datatables_css, dt_js: datatables_js  });
         }
     })
 }
-
+exports.createStudent=function(req,res)
+{
+    res.render('admin/createStudent');
+}
+exports.createStudents=function(req,res)
+{
+     user.findOne({ email: req.body.email }).populate("std").exec(function (err, std) {
+        if (err) {
+            req.flash('error', err.message);
+            console.log(err);
+            res.redirect('/');
+        }
+        if (std != null) {
+            console.log("Student with the given email Id already exists!");
+            req.flash('error', "Student Already Exists with: " + req.body.email);
+            console.log(std);
+            res.redirect('/createStudent');
+        }
+        var newstd = new user({
+            email: req.body.email,
+            username: req.body.username,
+            userType: 'student',
+            emailValid: true
+        });
+        console.log("Student Initiated " + newstd);
+        user.register(newstd, req.body.password, function (err, stdnew) {
+            if (err) {
+                req.flash('error', "Oops Something went wrong!");
+                console.log(err);
+                res.redirect('/createStudent');
+            }
+            else {
+                var mystd=new student({
+                    user:stdnew._id,
+                 fullName:req.body.username,
+                 email:req.body.email,
+                 mobileNumber:req.body.number
+                });
+                student.create(mystd,function(err,news)
+                {
+                     console.log(stdnew);
+                        res.redirect('/admin/home');
+                })
+                     
+                    } });
+               
+});
+    }
+exports.createInstructor=function(req,res){
+    res.render('admin/createInstructor')
+}
+exports.createInstructors=function(req,res){
+ user.findOne({ email: req.body.obj.email }).populate("std").exec(function (err, std) {
+        if (err) {
+            req.flash('error', err.message);
+            console.log(err);
+            res.redirect('/');
+        }
+        if (std != null) {
+            console.log("Student with the given email Id already exists!");
+            req.flash('error', "Student Already Exists with: " + req.body.email);
+            console.log(std);
+            res.redirect('/createInstructor');
+        }
+        var newins = new user({
+            email: req.body.obj.email,
+            username: req.body.obj.username,
+            userType: 'instructor',
+            emailValid: true
+        });
+        console.log("instructor Initiated " + newins);
+        user.register(newins, req.body.password, function (err, insnew) {
+            if (err) {
+                req.flash('error', "Oops Something went wrong!");
+                console.log(err);
+                res.redirect('/createInstructor');
+            }
+            else {
+                req.body.obj.user=insnew._id;
+                instructor.create(req.body.obj,function(err,news)
+                {if(err)
+                    console.log(err)
+                    else
+                 {
+                      console.log(news);
+                        res.redirect('/admin/home');
+                 }
+                   
+                })
+                     
+                    } });
+               
+});
+}
 //Admin HOME
 exports.admin_home_get = function (req, res) {
     res.render('admin/home');
@@ -130,12 +224,11 @@ exports.admin_register_post = function (req, res) {
         var newadm = new user({
             email: req.body.obj.email,
             username: req.body.obj.username,
-            password:req.body.password,
             userType: 'admin',
             emailValid: false
         });
         console.log("Admin Initiated " + newadm);
-        user.create(newadm, function (err, admnew) {
+        user.register(newadm,req.body.password, function (err, admnew) {
             if (err) {
                 req.flash('error', "Oops Something went wrong!");
                 console.log(err);
@@ -234,14 +327,15 @@ exports.admin_instdel_del = function (req, res) {
         }
         else {
             var id = inst.user;
-            instructor.findByIdAndRemove(req.params.id, function (err, instructor) {
+            instructor.deleteOne(inst, function (err, instructor) {
                 if (err) {
                     console.log(err);
                     req.flash('error', err.message);
                     res.redirect('/allinstructors');
                 }
                 else {
-                    user.findByIdAndRemove(id, function (err, nuser) {
+                    user.findById(id,function(err,use){
+                        user.deleteOne(use, function (err, nuser) {
                         if (err) {
                             console.log(err);
                             req.flash('error', err.message);
@@ -252,6 +346,8 @@ exports.admin_instdel_del = function (req, res) {
                             res.redirect('/allinstructors');
                         }
                     })
+                    })
+                    
                 }
             })
         }
@@ -321,14 +417,15 @@ exports.admin_stddel_del = function (req, res) {
         }
         else {
             var id = std.user;
-            student.findOneAndRemove(req.params.id, function (err, student) {
+            student.deleteOne(std, function (err, student) {
                 if (err) {
                     console.log(err);
                     req.flash('error', err.message);
                     res.redirect('/allstudents');
                 }
                 else {
-                    user.findOneAndRemove(id, function (err, nuser) {
+                    user.findById(id,function(err,use){
+                        user.deleteOne(use, function (err, nuser) {
                         if (err) {
                             console.log(err);
                             req.flash('error', err.message);
@@ -340,6 +437,8 @@ exports.admin_stddel_del = function (req, res) {
                             res.redirect('/allstudents');
                         }
                     })
+                    })
+                    
                 }
             })
         }

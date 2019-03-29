@@ -60,13 +60,25 @@ exports.subscribe=function(req,res){
       {
        
         console.log(nad[i]);
+      }
+  });
+    student.find({},function(err,nad)
+    { 
+      for(var i=0;i<nad.length;i++)
+      {
+       
+        console.log(nad[i]);
     }
   });
-ValidateUser.find({},function(err,my)
-{
-  for(var i=0;i<my.length;i++)
-  console.log(my[i]);
-})
+    instructor.find({},function(err,nad)
+    { 
+      for(var i=0;i<nad.length;i++)
+      {
+       
+        console.log(nad[i]);
+    }
+  });
+
   subscribedUsers.create(subsuser,function(err,newuser)
   {
     if(err)
@@ -172,25 +184,25 @@ exports.board= function(req,res){
 }
 //home route
 exports.home_get= function(req, res) {
-	var user = req.user;
+	var use = req.user;
 	console.log("HOME_Get method")
 	console.log(user);
-	if(user!= null && user!="undefined" && user.userType!= null &&  user.userType!= "undefined")
+	if(use!= null && use!="undefined" && use.userType!= null &&  use.userType!= "undefined")
 	{
 		console.log("inside conditional check");
-		if(user.userType === "student")
+		if(use.userType === "student")
 		{
-		var foundStudent = student.findOne({user : user}).populate("foundStudent").exec(function(err, foundStudent){
+		var foundStudent = student.findOne({user : use}).populate("foundStudent").exec(function(err, foundStudent){
         if(err || !foundStudent){
             console.log(err);
         }});
 		req.session.student = foundStudent;
 		res.render('student/home');
 		}
-		else if(user.userType === "instructor")
+		else if(use.userType === "instructor")
 		{
 			console.log("trying to find user");
-			var foundInstructor = instructor.findOne({user : user}).populate("foundInstructor").exec(function(err, foundInstructor){
+			var foundInstructor = instructor.findOne({user : use}).populate("foundInstructor").exec(function(err, foundInstructor){
         if(err || !foundInstructor){
             console.log(err);
         }});
@@ -199,7 +211,7 @@ exports.home_get= function(req, res) {
     }
     else{
       console.log("trying to find user");
-      var foundAdmin = admin.findOne({ user: user }).populate("foundAdmin").exec(function (err, foundAdmin) {
+      var foundAdmin = admin.findOne({ user: use }).populate("foundAdmin").exec(function (err, foundAdmin) {
         if (err || !foundAdmin) {
           console.log(err);
         }
@@ -210,6 +222,63 @@ exports.home_get= function(req, res) {
 	}
 	else
 	{
+    
+    user.find({},function(err,users)
+    {
+      if(err)
+        console.log(err);
+      else
+      {
+        for(var a=0;a<users.length;a++)
+      {
+        console.log("=====================")
+        console.log(users[a]);
+        console.log("=====================")
+        if(users[a].emailValid==false)
+          {
+
+            user.deleteOne(users[a],function(err,obj)
+            {
+              if(err)
+                console.log(err);
+              else
+              {
+                console.log('deleted');
+                
+              }
+            })
+          }
+      }
+
+      }
+      
+    })
+    student.find({},function(err,students)
+    {
+      if(err)
+        console.log(err);
+      else
+      {
+        for(var b=0;b<students.length;b++)
+        {
+          console.log('student------')
+          console.log(students[b]);
+        }
+      }
+    })
+    instructor.find({},function(err,instructors)
+    {
+      if(err)
+        console.log(err);
+      else
+      {
+        for(var b=0;b<instructors.length;b++)
+        {
+           console.log('instructor------')
+          console.log(instructors[b]);
+        }
+      }
+    })
 			res.render('home');
 	}
 
@@ -221,6 +290,7 @@ exports.login_get = function(req, res) {
 };
 
 exports.login_post = function(req, res){
+
   passport.authenticate('local')(req, res, function(err){
     if(err){
       req.flash('error', "Wrong Username or Password!");
@@ -231,7 +301,7 @@ exports.login_post = function(req, res){
       res.redirect('/login');
     }
     if(req.user.userType == 'student'){
-      req.flash('success', "Welcome Student " + req.user.username);
+      req.flash('success', "Welcome Student" + req.user.username);
       res.redirect('/');
     }
     if(req.user.userType == 'instructor'){

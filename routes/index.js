@@ -20,6 +20,10 @@ router.post("/subscribe", indexController.subscribe);
 router.get('/verify', indexController.verify);
 router.get('/logout', indexController.logout);
 
+router.get('/createStudent',isLoggedin_adm,indexController_adm.createStudent);
+router.post('/createStudent',isLoggedin_adm,indexController_adm.createStudents);
+router.get('/createInstructor',isLoggedin_adm,indexController_adm.createInstructor);
+router.post('/createInstructor',isLoggedin_adm,indexController_adm.createInstructors);
 router.get('/ping', indexController.ping);
 
 router.get('/courses', indexController.courseStructure);
@@ -78,6 +82,7 @@ router.get('/allinstructors', isLoggedin_adm, indexController_adm.instructor_all
 router.get('/allstudents', isLoggedin_adm, indexController_adm.students_all);
 
 router.get('/admin/home', isLoggedin_adm, indexController_adm.admin_home_get);
+
 
 router.get('/admin/:id/instructor/edit', isLoggedin_adm, indexController_adm.admin_instedit_get);
 router.put('/admin/:id/instructor/edit', isLoggedin_adm, indexController_adm.admin_instedit_put);
