@@ -186,7 +186,6 @@ exports.board= function(req,res){
 exports.home_get= function(req, res) {
 	var use = req.user;
 	console.log("HOME_Get method")
-	console.log(user);
 	if(use!= null && use!="undefined" && use.userType!= null &&  use.userType!= "undefined")
 	{
 		console.log("inside conditional check");
@@ -194,7 +193,7 @@ exports.home_get= function(req, res) {
 		{
 		var foundStudent = student.findOne({user : use}).populate("foundStudent").exec(function(err, foundStudent){
         if(err || !foundStudent){
-            console.log(err);
+            alert("wrong credentials entered");
         }});
 		req.session.student = foundStudent;
 		res.render('student/home');
@@ -204,7 +203,7 @@ exports.home_get= function(req, res) {
 			console.log("trying to find user");
 			var foundInstructor = instructor.findOne({user : use}).populate("foundInstructor").exec(function(err, foundInstructor){
         if(err || !foundInstructor){
-            console.log(err);
+            alert("wrong credentials entered");
         }});
 		req.session.instructor = foundInstructor;
 		res.render('instructor/home');
@@ -213,7 +212,7 @@ exports.home_get= function(req, res) {
       console.log("trying to find user");
       var foundAdmin = admin.findOne({ user: use }).populate("foundAdmin").exec(function (err, foundAdmin) {
         if (err || !foundAdmin) {
-          console.log(err);
+          alert("wrong credentials entered");
         }
       });
       req.session.admin = foundAdmin;
@@ -231,9 +230,7 @@ exports.home_get= function(req, res) {
       {
         for(var a=0;a<users.length;a++)
       {
-        console.log("=====================")
-        console.log(users[a]);
-        console.log("=====================")
+       
         if(users[a].emailValid==false)
           {
 
@@ -253,32 +250,7 @@ exports.home_get= function(req, res) {
       }
       
     })
-    student.find({},function(err,students)
-    {
-      if(err)
-        console.log(err);
-      else
-      {
-        for(var b=0;b<students.length;b++)
-        {
-          console.log('student------')
-          console.log(students[b]);
-        }
-      }
-    })
-    instructor.find({},function(err,instructors)
-    {
-      if(err)
-        console.log(err);
-      else
-      {
-        for(var b=0;b<instructors.length;b++)
-        {
-           console.log('instructor------')
-          console.log(instructors[b]);
-        }
-      }
-    })
+    
 			res.render('home');
 	}
 
@@ -291,27 +263,37 @@ exports.login_get = function(req, res) {
 
 exports.login_post = function(req, res){
 
-  passport.authenticate('local')(req, res, function(err){
+  passport.authenticate('local',{failureFlash: 'Invalid username or password.',
+                                   failureRedirect: '/login' })(req, res, function(err){
+   
     if(err){
+
+     
       req.flash('error', "Wrong Username or Password!");
       res.redirect('/login');
     }
     if(!req.user){
-      req.flash('error', "Wrong Username or Password!");
+     
+      req.flash('error', "Wrongs Username or Password!");
       res.redirect('/login');
     }
     if(req.user.userType == 'student'){
+       
       req.flash('success', "Welcome Student" + req.user.username);
       res.redirect('/');
     }
     if(req.user.userType == 'instructor'){
+     
       req.flash('success', "Welcome Instructor " + req.user.username);
       res.redirect('/');
     }
     if(req.user.userType == 'admin'){
+
       req.flash('success', "Welcome Admin " + req.user.username);
       res.redirect('/admin/home');
     }
+    else
+      res.redirect('/logins');
   })
 }
 

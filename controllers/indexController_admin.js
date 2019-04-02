@@ -201,7 +201,7 @@ exports.createInstructors=function(req,res){
 }
 //Admin HOME
 exports.admin_home_get = function (req, res) {
-    res.render('admin/home');
+    res.render('admin/home',{data:req.user});
 }
 
 exports.admin_register_get = function (req, res) {
