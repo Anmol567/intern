@@ -1,0 +1,303 @@
+<% include ../partials/header %>
+<% include ../partials/header_instructor %>
+
+
+	<title>canvas voohoo</title>
+  <style type="text/css">
+
+    body{
+      magin:0;
+      position:fixed;
+    }
+    #toolbar
+    {
+      background-colour:red;
+      width:100%;
+      height:100px;
+      padding:10px;
+      position:fixed;
+
+
+    }
+
+    #shapes
+    {
+      display:inline-block;
+    }
+    .radcontrol
+    {
+      width:30px;
+      height:30px;
+      background-colour:#4f4f4f;
+      display:inline-block;
+    }
+    #rad{
+      float:left;
+    }
+    #colors{
+      float:right;
+    }
+    .swatch{
+      width:30px;
+      height:30px;
+      border-radius:30px;
+      box-shadow:inset 0px 1px 0px rgba(255,255,255,0.5), 0px 2px 2px rgba(0.0,0,0.5);
+      display:inline-block;
+      margin-left:10px;
+
+    }
+    .swatch.active{
+      border:2px solid white;
+        box-shadow:inset 0px 1px 2px rgba(0,0,0.5);
+
+    }
+    .slidecontainer {
+      float:right;
+      width: 100%; /* Width of the outside container */
+    }
+
+    /* The slider itself */
+    .slider {
+      -webkit-appearance: none;  /* Override default CSS styles */
+      appearance: none;
+      width: 100px; /* Full-width */
+      height: 25px; /* Specified height */
+      background: #d3d3d3; /* Grey background */
+      outline: none; /* Remove outline */
+      opacity: 0.7; /* Set transparency (for mouse-over effects on hover) */
+      -webkit-transition: .2s; /* 0.2 seconds transition on hover */
+      transition: opacity .2s;
+    }
+
+    /* Mouse-over effects */
+    .slider:hover {
+      opacity: 1; /* Fully shown on mouse-over */
+    }
+
+    /* The slider handle (use -webkit- (Chrome, Opera, Safari, Edge) and -moz- (Firefox) to override default look) */
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none; /* Override default look */
+      appearance: none;
+      width: 25px; /* Set a specific slider handle width */
+      height: 25px; /* Slider handle height */
+      background: #4CAF50; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+    }
+    div
+    {
+
+      display: inline-block;
+      vertical-align: top;
+      line-height: 1;
+    }
+    }
+    .slider::-moz-range-thumb {
+      width: 25px; /* Set a specific slider handle width */
+      height: 25px; /* Slider handle height */
+      background: #4CAF50; /* Green background */
+      cursor: pointer; /* Cursor on hover */
+    }
+  </style>
+
+<script>
+
+  window.onload=function(){
+
+      let canvas;
+      let c;
+      let engage=false;
+      let radius=20;
+
+      var minRad=0.5;
+      maxRad=100;
+      interval=5;
+      defaultRad=20;
+
+      radcontrol=document.getElementById("radc")
+      inrad=document.getElementById("incrad")
+      derad=document.getElementById("decrad")
+
+
+      console.log(canvas);
+      var putPoint=function(e)
+      {
+         if(engage)
+         {
+            c.lineTo(e.clientX-canvas.offsetLeft,e.clientY-canvas.offsetTop);
+             c.stroke();
+        c.beginPath();
+        c.arc(e.clientX-canvas.offsetLeft,e.clientY-canvas.offsetTop,radius,0,Math.PI*2,false);
+        c.fill();
+        c.beginPath();
+        c.moveTo(e.clientX-canvas.offsetLeft,e.clientY-canvas.offsetTop);
+
+      }
+
+      }
+      var disengage=function()
+      {
+         engage=false;
+          c.beginPath();
+
+      }
+      var engages=function(e)
+      {
+         engage=true;
+         putPoint(e);
+      }
+      var onc=function(e){
+      c.rect(0,0,canvas.width,canvas.height);
+      c.fillStyle="white"
+      c.fill();
+      c.beginPath();
+      c.fillStyle="black";
+      c.strokeStyle="black"
+      var s=document.getElementsByClassName('swatch')
+      console.log(s);
+      for(let m=0;m<s.length;m++)
+       {
+
+        if(s[m].style.backgroundColour=="red")
+        {
+        s[m].className+=" active"
+        console.log(s[m]);
+          }
+        var active=document.getElementsByClassName("active")[0]
+        console.log(active)
+        if(active)
+          active.className="swatch";
+       }
+       }
+
+
+      clear=document.getElementById("clear");
+      canvas=document.getElementById("canvas");
+      console.log(window.innerWidth)
+      console.log(window.innerHeight)
+        canvas.width=window.innerWidth;
+      canvas.height=window.innerHeight;
+      canvas.addEventListener('mouseup',disengage);
+      canvas.addEventListener('mousedown',engages);
+      canvas.addEventListener('mousemove',putPoint);
+      clear.addEventListener('click',onc);
+      console.log(canvas)
+      console.log(radius)
+      c=canvas.getContext('2d');
+      c.lineWidth=2*radius;
+      console.log(c.lineWidth)
+      var setRadius=function(newRadius){
+      	if(newRadius<minRad )
+      	{
+      		newRadius=minRad;
+      	}
+      	else if(newRadius>maxRad)
+      		newRadius=maxRad;
+         radius=newRadius;
+       c.lineWidth=2*radius;
+       radcontrol.innerHTML=radius;
+      }
+      derad.addEventListener('click',function()
+      {
+        console.log('yahoo')
+        setRadius(radius-interval);
+      });
+      inrad.addEventListener('click',function()
+      {
+        console.log('yahoo')
+        setRadius(radius+interval);
+      });
+
+
+
+    	var swatches=document.getElementsByClassName("swatch");
+
+    var colors=['red','yellow','green','blue','gray','white','black'];
+    function setColor(color)
+    {
+    	c.fillStyle=color;
+    	c.strokeStyle=color;
+    	var active=document.getElementsByClassName("active")[0];
+        if(active)
+        	active.className="swatch";
+    }
+
+
+    function setSwatch(e){
+
+    	var swatch=e.target;
+       setColor(swatch.style.backgroundColor);
+       swatch.className+=' active';
+    }
+    for(var i=0;i<colors.length;i++)
+    {
+    	var swatch=document.createElement('div');
+    	swatch.className='swatch';
+    	swatch.style.backgroundColor=colors[i];
+        swatch.addEventListener('click',setSwatch);
+        document.getElementById('colors').appendChild(swatch);
+    }
+
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+</script>
+
+
+
+<body>
+	<div id="toolbar">
+      Size<span id="radc">20</span>
+      <div id="incrad"class="radcontrol">+</div>
+      <div id="decrad"class="radcontrol">-</div>
+    <div id="colors">
+
+  </div>
+<button type="button" id="eraser"class="btn btn-danger">Eraser</button>
+<input type="range" min="1" max="100" value="50" class="slider" id="myRange">
+
+<button type="button" id="clear"class="btn btn-primary">Clear</button>
+
+
+ <div id="shapes">
+ 	<button type="button" id="rectangle" class="btn btn-primary">Rectangle</button>
+ 	<button type="button" id="circle" class="btn btn-primary">Circle</button>
+ 	<button type="button" id="line" class="btn btn-primary">Line</button>
+ 	<button type="button"  id="square" class="btn btn-primary">Square</button>
+ </div>
+</div>
+<canvas id="canvas" style="display:block;">
+
+</canvas>
+
+</body>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+ <% include ../partials/footer %>

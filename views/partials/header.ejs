@@ -2,12 +2,12 @@
 <html lang="en" >
 
 <head>
-  
+
   <meta charset="UTF-8">
   <title>Home Widget EduTech</title>
   <% include ./bootstrap4 %>
   <% include ./icons %>
- 
+
   <style>
 
     #nav{
@@ -49,13 +49,13 @@
 
 <body >
 
-  
+
 
   <nav class="navbar sticky-top navbar-expand-lg navbar-dark" id="nav">
     <a class="navbar-brand" href="#" disabled><img src="/images/headerLogo.png" width="200" height="40" disabled="true" alt="WidgetEduTech Logo"></a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#collapsibleNavbar" aria-controls="collapsibleNavbar" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
-      
+
     </button>
 
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
@@ -97,7 +97,7 @@
          PRODUCT
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="#">Live Clsses</a>
+          <a class="dropdown-item" href="#">Live Classes</a>
           <a class="dropdown-item" href="#">Animated Classes</a>
           <a class="dropdown-item" href="#">Self Placed</a>
           <a class="dropdown-item" href="#">Practice Question</a>
@@ -116,7 +116,7 @@
           <a class="dropdown-item" href="#">Contact Us</a>
         </div>
        </li>
-   
+
      </ul>
       <ul class="navbar-nav navbar-right">
         <% if(!currentUser){%>
@@ -135,7 +135,7 @@
       </ul>
     </div>
   </nav>
- <script>      
+ <script>
   $(document).ready(function(){
     if(localStorage.getItem("clickedLinkId")){ // If "clickedLinkClass" has been set.
         $('#'+localStorage.getItem("clickedLinkId")).addClass("bg-danger"); // add the class "Selected", to the previously clicked link.
@@ -149,7 +149,7 @@
 </script>
   <!-- Modal -->
   <div id="myModal" class="modal fade" role="dialog">
-    <div class="modal-dialog">  
+    <div class="modal-dialog">
       <!-- Modal content-->
       <div class="modal-content">
         <div class="modal-header">
@@ -188,10 +188,15 @@
           <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
         </div>
       </div>
-  
+
     </div>
   </div>
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/css/swiper.min.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.0/js/swiper.min.js"></script>
 
 
 

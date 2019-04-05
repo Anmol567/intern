@@ -269,17 +269,6 @@ function stopform(value){
   onreadystatechange="if (this.readyState === 'complete') this.onload()">
 </script>
 
-<script type="text/javascript">
-  $("#date").click(function(){
-    $('#date').change(function(){
-      var x = $('#date').val();
-      var date = new Date(x);
-      if(date < Date.now()){
-        window.alert('Enter valid Date!');
-      }
-    })
-  });
-</script>
 
 
 

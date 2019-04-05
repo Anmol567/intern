@@ -195,5 +195,5 @@ exports.whiteboard_get = function(req, res){
     const canvas= path.resolve(__dirname, '../public/js/canvas-designer-widget.js');
     const canvas_html= path.resolve(__dirname, '../public/widget.html');
     const canvas_js= path.resolve(__dirname, '../public/js/widget.js');
-    res.render('instructor/whiteboard.ejs', {canvas: canvas, canvas_html: canvas_html, canvas_js: canvas_js});
+    res.render('instructor/whiteboard2.ejs', {canvas: canvas, canvas_html: canvas_html, canvas_js: canvas_js});
 }
