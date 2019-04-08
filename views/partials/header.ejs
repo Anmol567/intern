@@ -34,13 +34,58 @@
     }
      .link {
     color: blue;
-}
 
+}
 
 .select
 {
   color: red;
 }
+
+
+
+.dropbtn {
+
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: ;}
+
+
   </style>
  <script src="https://code.jquery.com/jquery-3.3.1.js"
   integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
@@ -61,10 +106,10 @@
     <div class="collapse navbar-collapse" id="collapsibleNavbar">
       <ul class="navbar-nav mr-auto">
         <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          CLASS
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="/class/<%=4%>">4</a>
           <a class="dropdown-item" href="/class/<%=5%>">5</a>
           <a class="dropdown-item" href="/class/<%=6%>">6</a>
@@ -77,26 +122,128 @@
         </div>
       </li>
        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          BOARDS
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="/board/CBSE">CBSE</a>
-          <a class="dropdown-item" href="/board/ICSE">ICSE</a>
-          <a class="dropdown-item" href="/board/IGCSE">IGCSE</a>
-          <a class="dropdown-item" href="/board/ANDHRA PRADESH">ANDHRA PRADESH</a>
-          <a class="dropdown-item" href="/board/BIHAR">BIHAR</a>
-          <a class="dropdown-item" href="/board/ckjbsa">ckjbsa</a>
-          <a class="dropdown-item" href="/board/ckjab">ckjab</a>
-          <a class="dropdown-item" href="/board/cnja">cnja</a>
-          <a class="dropdown-item" href="/board/cnjksnk">cnjksnk</a>
+        <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
+        <table class="table">
+          <tbody>
+          <tr>
+            <td>
+          <a class="dropdown-item" href="/board/APBSIE">APBSIE</a>
+        </td>
+        <td>
+          <a  href="/board/AHSEC">AHSEC</a>
+        </td>
+        <td>
+          <a  href="/board/BSEB">BSEB</a>
+        </td>
+        <td>
+          <a  href="/board/CGBSE">CGBSE</a>
+        </td>
+        <td>
+          <a  href="/board/PSEB">PSEB</a>
+        </td>
+
+        </tr>
+        <tr>
+
+
+          <td>
+          <a class="dropdown-item" href="/board/GBSHSE">GBSHSE</a>
+        </td>
+        <td>
+          <a class="dropdown-item" href="/board/GSEB">GSEB</a>
+        </td>
+        <td>
+          <a  href="/board/BSEH">BSEH</a>
+        </td>
+        <td>
+          <a  href="/board/HPBoSE">HPBoSE</a>
+        </td>
+        <td>
+          <a  href="/board/JKBOSE">JKBOSE</a>
+        </td>
+
+        </tr>
+
+
+        <tr>
+          <td>
+          <a class="dropdown-item" href="/board/JAC">JAC</a>
+        </td>
+        <td>
+          <a  href="/board/KSEEB">KSEEB</a>
+        </td>
+        <td>
+          <a  href="/board/MAHAHSSCBOARD"> MAHAHSSCBOARD</a>
+        </td>
+        <td>
+          <a  href="/board/MBOSE"> MBOSE</a>
+        </td>
+        <td>
+          <a class="dropdown-item" href="/board/MBSE">MBSE</a>
+        </td>
+
+
+      </tr>
+
+
+      <tr>
+      <td>
+          <a class="dropdown-item" href="/board/NBSE">NBSE</a>
+        </td>
+        <td>
+          <a  href="/board/BSEODISHA">BSEODISHA</a>
+        </td>
+        <td>
+          <a  href="/board/RBSE">RBSE</a>
+        </td>
+        <td>
+          <a  href="/board/TNBSE">TNBSE</a>
+        </td>
+        <td>
+          <a class="dropdown-item" href="/board/TSBIE">TSBIE</a>
+
+
+</tr>
+
+
+<tr>
+  <td>
+          <a class="dropdown-item" href="/board/TBSE">TBSE</a>
+        </td>
+        <td>
+          <a  href="/board/BSHEUP">BSHEUP</a>
+        </td>
+        <td>
+          <a  href="/board/UBSE">UBSE</a>
+        </td>
+        <td>
+          <a  href="/board/WBBSE">WBBSE</a>
+        </td>
+        <td>
+          <a  href="/board/CBSE">CBSE</a>
+        </td>
+
+      </tr>
+      <tr>
+        <td>
+        <a  href="/board/ICSE">ICSE</a>
+        </td>
+        <td>
+            <a  href="/board/ICGSE">ICGSE</a>
+        </td>
+      </tr>
+        </tbody>
+        </table>
         </div>
        </li>
        <li class="nav-item dropdown">
-        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
          PRODUCT
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">Live Classes</a>
           <a class="dropdown-item" href="#">Animated Classes</a>
           <a class="dropdown-item" href="#">Self Placed</a>
@@ -105,10 +252,10 @@
         </div>
        </li>
        <li class="nav-item dropdown">
-         <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+         <a class="nav-link dropdown-toggle dropbtn" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
         ABOUT US?
         </a>
-        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu dropdown-content" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="#">About Widget Edutech</a>
           <a class="dropdown-item" href="#">Our Blog</a>
           <a class="dropdown-item" href="#">Meet Our Educators</a>
@@ -135,18 +282,7 @@
       </ul>
     </div>
   </nav>
- <script>
-  $(document).ready(function(){
-    if(localStorage.getItem("clickedLinkId")){ // If "clickedLinkClass" has been set.
-        $('#'+localStorage.getItem("clickedLinkId")).addClass("bg-danger"); // add the class "Selected", to the previously clicked link.
-    }
-    $("a").click(function(){ // On click
-        $(".bg-danger").removeClass("bg-danger");
-        $(this).addClass("bg-danger");
-        localStorage.setItem("clickedLinkId", $(this).attr("id")); // Save the class of the current element in the localStorage.
-    });
-});
-</script>
+
   <!-- Modal -->
   <div id="myModal" class="modal fade" role="dialog">
     <div class="modal-dialog">
